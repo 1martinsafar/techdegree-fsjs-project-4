@@ -34,7 +34,7 @@ const tickTackToe = () => {
   };
 
   const getRows = () => {
-    console.log(">>> getRows");
+    // console.log(">>> getRows");
     const allBoxes = Array.from(document.querySelectorAll(".box"));
     const rows = [];
     for (let i = 0; i < allBoxes.length; i += 3) {
@@ -46,7 +46,7 @@ const tickTackToe = () => {
 
   // could take rowLength as a parameter for more reusability
   const getColumns = () => {
-    console.log(">>> getColumns");
+    // console.log(">>> getColumns");
     const allBoxes = Array.from(document.querySelectorAll(".box"));
     const columns = [];
 
@@ -75,7 +75,7 @@ const tickTackToe = () => {
 
   // Assuming the board is a square
   const getDiagonals = () => {
-    console.log(">>> getDiagonals");
+    // console.log(">>> getDiagonals");
     const allBoxes = Array.from(document.querySelectorAll(".box"));
     const diagonals = [[],[]];
 
@@ -96,6 +96,7 @@ const tickTackToe = () => {
   };
 
   const checkEnd = directions => {
+    let winner = false;
     directions.forEach(direction => {
       const length = direction.length;
       let same = 0;
@@ -109,34 +110,47 @@ const tickTackToe = () => {
           break;
         }
         if (same === 3) {
-          console.log("GAME OVER!");
-          const winner = boxStatus(direction[0]);
+          console.log("\n\n\n\nGAME OVER!");
+          winner = boxStatus(direction[0]);
           console.log("winner:", winner);
-          return winner;
         }
       }
     });
+    return winner;
   };
 
   const checkWinRows = rows => {
     console.log(">>> checkWinRows");
-    checkEnd(rows);
+    return checkEnd(rows);
   };
 
   const checkWinColumns = columns => {
     console.log(">>> checkWinColumns");
-    checkEnd(columns);
+    return checkEnd(columns);
   };
 
   const checkWinDiagonals = diagonals => {
     console.log(">>> checkWinDiagonals");
-    checkEnd(diagonals);
+    return checkEnd(diagonals);
   };
 
   const checkWin = (rows, columns, diagonals) => {
-    checkWinRows(rows);
-    checkWinColumns(columns);
-    checkWinDiagonals(diagonals);
+    const winner = checkWinRows(rows) || checkWinColumns(columns) || checkWinDiagonals(diagonals);
+    console.log("CHECK WINNER:", winner);
+    return winner;
+  };
+
+  const isDraw = () => {
+    const allBoxes = Array.from(document.querySelectorAll(".box"));
+    for (let i = 0; i < allBoxes.length; i++) {
+      // console.log("allBoxes[i].className:", allBoxes[i].className);
+      if (allBoxes[i].className === "box") {
+        // console.log("___not a draw___");
+        return false;
+      }
+    }
+    console.log("<<< DRAW >>>");
+    return true;
   };
 
   /* ======================================================================
@@ -193,7 +207,7 @@ const tickTackToe = () => {
       const target = e.target;
       const validMouseover = target.className === "box";
       if (validMouseover) {
-        console.log("MOUSE OVER");
+        // console.log("MOUSE OVER");
         if (currentPlayer === "x") {
           target.style.backgroundImage = "url('img/x.svg')";
         } else {
@@ -205,14 +219,14 @@ const tickTackToe = () => {
       const target = e.target;
       const validMouseout = target.className === "box";
       if (validMouseout) {
-        console.log("MOUSE OUT", target);
+        // console.log("MOUSE OUT", target);
         target.style.backgroundImage = "none";
       }
     });
     boxes.addEventListener("click", e => {
       const target = e.target;
       if (target.className === "box") {
-        console.log("CLICK", target);
+        // console.log("CLICK", target);
         if (currentPlayer === "x") {
           target.classList.add("box-filled-2");
           currentPlayer = "o";
@@ -224,19 +238,17 @@ const tickTackToe = () => {
         }
         // test winning
 
-        const rows = getRows();
-        const columns = getColumns();
-        const diagonals = getDiagonals();
-        checkWin(rows, columns, diagonals);
-
-        // const rows = getRows();
-        // checkWinRows(rows);
-
-        // const columns = getColumns();
-        // checkWinColumns(columns);
-
-        // const diagonals = getDiagonals();
-        // checkWinDiagonals(diagonals);
+        if (isDraw()) {
+          return;
+        } else {
+          const rows = getRows();
+          const columns = getColumns();
+          const diagonals = getDiagonals();
+          const winner = checkWin(rows, columns, diagonals);
+          if (winner) {
+            console.log(`player: ${winner} won!`);
+          }
+        }
       }
     });
   });
