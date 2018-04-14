@@ -67,18 +67,18 @@ h1 {
       z-index: -1; }
   .screen-win-tie {
     background: #54D17A; }
-  .screen-win-one {
+  .screen-win-two {
     background: #FFA000; }
-    .screen-win-one .button {
+    .screen-win-two .button {
       color: #3688C3; }
-    .screen-win-one p:before {
+    .screen-win-two p:before {
       content: "o";
       top: 1.75rem; }
-  .screen-win-two {
+  .screen-win-one {
     background: #3688C3; }
-    .screen-win-two .button {
+    .screen-win-one .button {
       color: #FFA000; }
-    .screen-win-two p:before {
+    .screen-win-one p:before {
       content: "×";
       top: 4.5rem; }
 
