@@ -82,6 +82,27 @@ h1 {
       content: "×";
       top: 4.5rem; }
 
+/* Newly added */
+#start input {
+  font-weight: bold;
+  text-align: center;
+  border: none;
+  outline: none;
+  display: block;
+  margin: 2rem auto;
+}
+#start input:focus::placeholder {
+  visibility: hidden;
+}
+#player1 {
+  color: #3688C3;
+}
+#player2 {
+  color: #FFA000;
+}
+
+
+
 .board {
   padding-top: 1em; }
   .board h1 {

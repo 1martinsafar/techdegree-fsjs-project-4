@@ -20,15 +20,12 @@ const tickTackToe = () => {
 
   const boxStatus = box => {
     if (box.className === "box box-filled-2") {
-      // console.log("Selected: X");
       return "X";
     }
     else if (box.className === "box box-filled-1") {
-      // console.log("Selected: O");
       return "O";
     }
     else {
-      // console.log("empty");
       return null;
     }
   };
@@ -69,7 +66,6 @@ const tickTackToe = () => {
         columns[2].push(allBoxes[i]);
       }
     }
-    // console.log(columns);
     return columns;
   };
 
@@ -143,9 +139,7 @@ const tickTackToe = () => {
   const isDraw = () => {
     const allBoxes = Array.from(document.querySelectorAll(".box"));
     for (let i = 0; i < allBoxes.length; i++) {
-      // console.log("allBoxes[i].className:", allBoxes[i].className);
       if (allBoxes[i].className === "box") {
-        // console.log("___not a draw___");
         return false;
       }
     }
@@ -157,30 +151,24 @@ const tickTackToe = () => {
                           OBJECTS
   ========================================================================= */
 
-  // TESTING BOARD OBJECT
-
+  // Board Object
   class Board {
     showStart() {
-      console.log("___SHOWING START");
       this.startScreen.style.display = "block";
       this.endScreen.style.display = "none";
     }
-
     showBoard(reset) {
-      console.log("___SHOWING BOARD");
       if (reset) {
         const boxes = Array.from(document.querySelectorAll(".box"));
         boxes.forEach(box => {
           box.className = "box";
           box.removeAttribute("style");
         });
-        console.log("boxes:\n", boxes);
       }
       this.boardScreen.style.display = "block";
       this.startScreen.style.display = "none";
       this.endScreen.style.display = "none";
     }
-
     showEnd(resultClass, resultText) {
       this.endScreen.style.display = "block";
       this.boardScreen.style.display = "none";
@@ -202,6 +190,20 @@ const tickTackToe = () => {
     }
   }
 
+  // Player Object
+  class Player {
+    constructor({ name = "unknown", symbol } = {}) {
+      this.name = name;
+      this.symbol = symbol;
+    }
+  }
+
+  // let player1 = new Player({name: "Wield", symbol: "X"});
+  // let player2 = new Player({symbol: "O"});
+
+  // console.log(player1);
+  // console.log(player2);
+
   /* ======================================================================
                           Main Code
   ========================================================================= */
@@ -211,6 +213,17 @@ const tickTackToe = () => {
   // const screen = document.querySelector("#board");
   let board = new Board({});
   board.showStart();
+
+
+
+  // players
+  const startTitle = document.querySelector("#start h1");
+  const askNames = `<input id="player1" type="text" placeholder="Player 1 name:">
+                    <input id="player2" type="text" placeholder="Player 2 name:">`;
+  startTitle.insertAdjacentHTML("afterend", askNames);
+
+
+
 
   const startButton = document.querySelector(".screen-start .button");
   startButton.addEventListener("click", e => {
@@ -289,63 +302,12 @@ const tickTackToe = () => {
       }
     });
   });
-
-
-
-  /* ======================================================================
-                          Objects
-  ========================================================================= */
-
-  // class Board {
-  //   displayBoard(newScreen) {
-  //     const screen = document.querySelector("#board");
-  //     screen.innerHTML = newScreen;
-  //   }
-  //   constructor({ screenHTML } = {}) {
-  //     this.screenHTML = screenHTML;
-  //   }
-  // }
-  //
-  // let board = new Board({screenHTML: boardScreenHTML});
-  //
-  // console.log(board);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 };
 
 tickTackToe();
+
+
+
+
+
+//
