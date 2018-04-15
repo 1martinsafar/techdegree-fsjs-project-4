@@ -6,15 +6,20 @@ const tickTackToe = () => {
   ========================================================================= */
 
   // Highlighting the user who begins
-  const showCurrentPlayer = () => {
-    const player1 = document.querySelector("#player1");
-    const player2 = document.querySelector("#player2");
-    if (currentPlayer === "x") {
-      player1.classList.add("active");
-      player2.classList.remove("active");
+  const showCurrentPlayer = (currentPlayer, player1, player2) => {
+    const playerHighlight1 = document.querySelector("#player1-highlight");
+    const playerHighlight2 = document.querySelector("#player2-highlight");
+    console.log(playerHighlight1);
+    console.log(playerHighlight2);
+    console.log("currentPlayer:", currentPlayer);
+    console.log("player1:", player1);
+    console.log("player2:", player2);
+    if (currentPlayer.symbol === player1.symbol) {
+      playerHighlight1.classList.add("active");
+      playerHighlight2.classList.remove("active");
     } else {
-      player1.classList.remove("active");
-      player2.classList.add("active");
+      playerHighlight1.classList.remove("active");
+      playerHighlight2.classList.add("active");
     }
   };
 
@@ -147,6 +152,13 @@ const tickTackToe = () => {
     return true;
   };
 
+  // const showNameSelection = () => {
+  //   const startTitle = document.querySelector("#start h1");
+  //   const askNames = `<input id="player1" type="text" placeholder="Player 1 name:">
+  //                     <input id="player2" type="text" placeholder="Player 2 name:">`;
+  //   startTitle.insertAdjacentHTML("afterend", askNames);
+  // };
+
   /* ======================================================================
                           OBJECTS
   ========================================================================= */
@@ -198,17 +210,9 @@ const tickTackToe = () => {
     }
   }
 
-  // let player1 = new Player({name: "Wield", symbol: "X"});
-  // let player2 = new Player({symbol: "O"});
-
-  // console.log(player1);
-  // console.log(player2);
-
   /* ======================================================================
                           Main Code
   ========================================================================= */
-
-  let currentPlayer = "x";
 
   // const screen = document.querySelector("#board");
   let board = new Board({});
@@ -222,15 +226,39 @@ const tickTackToe = () => {
                     <input id="player2" type="text" placeholder="Player 2 name:">`;
   startTitle.insertAdjacentHTML("afterend", askNames);
 
-
-
+  // const playerInput1 = document.querySelector("#player1");
+  // const playerInput2 = document.querySelector("#player2");
+  const startScreen = document.querySelector("#start");
+  let playerName1 = "";
+  let playerName2 = "";
+  startScreen.addEventListener("input", e => {
+    if (e.target.id === "player1") {
+      playerName1 = e.target.value;
+    } else {
+      playerName2 = e.target.value;
+    }
+    console.log("playerName1:", playerName1);
+    console.log("playerName2:", playerName2);
+  });
 
   const startButton = document.querySelector(".screen-start .button");
   startButton.addEventListener("click", e => {
     board.showBoard();
 
+    // Create player objects with the specified name
+    // console.log("playerName1:", playerName1);
+    // console.log("playerName2:", playerName2);
+
+    const player1 = new Player({name: playerName1, symbol: "X"});
+    const player2 = new Player({name: playerName2, symbol: "O"});
+
+    // console.log("player1:", player1);
+    // console.log("player2:", player2);
+
+
     // Highlighting the user who begins
-    showCurrentPlayer();
+    let currentPlayer = player1;
+    showCurrentPlayer(currentPlayer, player1, player2);
 
     // Handling mouse events: click, over, out
     const boxes = document.querySelector(".boxes");
@@ -239,7 +267,7 @@ const tickTackToe = () => {
       const validMouseover = target.className === "box";
       if (validMouseover) {
         // console.log("MOUSE OVER");
-        if (currentPlayer === "x") {
+        if (currentPlayer.symbol === "X") {
           target.style.backgroundImage = "url('img/x.svg')";
         } else {
           target.style.backgroundImage = "url('img/o.svg')";
@@ -258,14 +286,14 @@ const tickTackToe = () => {
       const target = e.target;
       if (target.className === "box") {
         // console.log("CLICK", target);
-        if (currentPlayer === "x") {
+        if (currentPlayer.symbol === player1.symbol) {
           target.classList.add("box-filled-2");
-          currentPlayer = "o";
-          showCurrentPlayer();
+          currentPlayer = player2;
+          showCurrentPlayer(currentPlayer, player1, player2);
         } else {
           target.classList.add("box-filled-1");
-          currentPlayer = "x";
-          showCurrentPlayer();
+          currentPlayer = player1;
+          showCurrentPlayer(currentPlayer, player1, player2);
         }
 
         // test winning

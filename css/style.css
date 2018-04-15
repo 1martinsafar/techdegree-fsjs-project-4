@@ -82,7 +82,7 @@ h1 {
       content: "×";
       top: 4.5rem; }
 
-/* Newly added */
+/* Player Input */
 #start input {
   font-weight: bold;
   text-align: center;
@@ -94,14 +94,14 @@ h1 {
 #start input:focus::placeholder {
   visibility: hidden;
 }
-#player1 {
+#player1,
+#player1::placeholder {
   color: #3688C3;
 }
-#player2 {
+#player2,
+#player2::placeholder {
   color: #FFA000;
 }
-
-
 
 .board {
   padding-top: 1em; }
@@ -126,12 +126,12 @@ h1 {
   .players-turn {
     outline: none;
   }
-  #player1.active svg g, #player2.active svg g {
+  #player1-highlight.active svg g, #player2-highlight.active svg g {
     fill: #fff; }
-  #player1.active {
-    background: #FFA000; }
-  #player2.active {
+  #player1-highlight.active {
     background: #3688C3; }
+  #player2-highlight.active {
+    background: #FFA000; }
 
 .boxes {
   width: 480px;
