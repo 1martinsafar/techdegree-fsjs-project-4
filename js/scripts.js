@@ -214,11 +214,8 @@ const tickTackToe = () => {
                           Main Code
   ========================================================================= */
 
-  // const screen = document.querySelector("#board");
   let board = new Board({});
   board.showStart();
-
-
 
   // players
   const startTitle = document.querySelector("#start h1");
@@ -226,11 +223,9 @@ const tickTackToe = () => {
                     <input id="player2" type="text" placeholder="Player 2 name:">`;
   startTitle.insertAdjacentHTML("afterend", askNames);
 
-  // const playerInput1 = document.querySelector("#player1");
-  // const playerInput2 = document.querySelector("#player2");
   const startScreen = document.querySelector("#start");
-  let playerName1 = "";
-  let playerName2 = "";
+  let playerName1 = "player1";
+  let playerName2 = "player2";
   startScreen.addEventListener("input", e => {
     if (e.target.id === "player1") {
       playerName1 = e.target.value;
@@ -246,18 +241,11 @@ const tickTackToe = () => {
     board.showBoard();
 
     // Create player objects with the specified name
-    // console.log("playerName1:", playerName1);
-    // console.log("playerName2:", playerName2);
-
     const player1 = new Player({name: playerName1, symbol: "X"});
     const player2 = new Player({name: playerName2, symbol: "O"});
-
-    // console.log("player1:", player1);
-    // console.log("player2:", player2);
-
+    let currentPlayer = player1;
 
     // Highlighting the user who begins
-    let currentPlayer = player1;
     showCurrentPlayer(currentPlayer, player1, player2);
 
     // Handling mouse events: click, over, out
@@ -311,14 +299,18 @@ const tickTackToe = () => {
           const columns = getColumns();
           const diagonals = getDiagonals();
           const winner = checkWin(rows, columns, diagonals);
+          let resultText = "";
           if (winner) {
             let resultClass = "";
             if (winner === "X") {
               resultClass = "screen-win-one";
+              resultText = player1.name;
             } else {
               resultClass = "screen-win-two";
+              resultText = player2.name;
             }
-            const resultText = "Winner";
+            // const resultText = "Winner";
+            console.log("resultText:", resultText);
             board.showEnd(resultClass, resultText);
             // Restart the game
             const restartButton = document.querySelector("#finish .button");
