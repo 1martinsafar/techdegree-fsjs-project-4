@@ -83,17 +83,26 @@ h1 {
       top: 4.5rem; }
 
 /* Player Input */
-#start input {
+#start input:focus::placeholder {
+  visibility: hidden;
+}
+
+#player1 {
+  margin-top: 3rem;
+}
+
+.player {
+  height: 2rem;
   font-weight: bold;
   text-align: center;
   border: none;
   outline: none;
   display: block;
-  margin: 2rem auto;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 2rem;
 }
-#start input:focus::placeholder {
-  visibility: hidden;
-}
+
 #player1,
 #player1::placeholder {
   color: #3688C3;
@@ -101,6 +110,24 @@ h1 {
 #player2,
 #player2::placeholder {
   color: #FFA000;
+}
+/* Player Names at the top */
+.players-top {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+#player-name-1 {
+  color: #3688C3;
+  width: 672px;
+  text-align: center;
+  margin-left: 45px;
+}
+#player-name-2 {
+  color: #FFA000;
+  width: 672px;
+  text-align: center;
+  margin-right: 45px;
 }
 
 .board {

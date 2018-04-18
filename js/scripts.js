@@ -9,11 +9,6 @@ const tickTackToe = () => {
   const showCurrentPlayer = (currentPlayer, player1, player2) => {
     const playerHighlight1 = document.querySelector("#player1-highlight");
     const playerHighlight2 = document.querySelector("#player2-highlight");
-    console.log(playerHighlight1);
-    console.log(playerHighlight2);
-    console.log("currentPlayer:", currentPlayer);
-    console.log("player1:", player1);
-    console.log("player2:", player2);
     if (currentPlayer.symbol === player1.symbol) {
       playerHighlight1.classList.add("active");
       playerHighlight2.classList.remove("active");
@@ -36,7 +31,6 @@ const tickTackToe = () => {
   };
 
   const getRows = () => {
-    // console.log(">>> getRows");
     const allBoxes = Array.from(document.querySelectorAll(".box"));
     const rows = [];
     for (let i = 0; i < allBoxes.length; i += 3) {
@@ -44,11 +38,10 @@ const tickTackToe = () => {
       rows.push(row);
     }
     return rows;
-  }
+  };
 
   // could take rowLength as a parameter for more reusability
   const getColumns = () => {
-    // console.log(">>> getColumns");
     const allBoxes = Array.from(document.querySelectorAll(".box"));
     const columns = [];
 
@@ -76,23 +69,20 @@ const tickTackToe = () => {
 
   // Assuming the board is a square
   const getDiagonals = () => {
-    // console.log(">>> getDiagonals");
     const allBoxes = Array.from(document.querySelectorAll(".box"));
     const diagonals = [[],[]];
-
     const length = allBoxes.length;
 
     for (let i = 0; i < length; i++) {
       // 0 4 8
       if (i % 4 === 0) {
-        diagonals[0].push(allBoxes[i])
+        diagonals[0].push(allBoxes[i]);
       }
       // 2 4 6
       if (i === 2 || i === 4 || i === 6) {
-        diagonals[1].push(allBoxes[i])
+        diagonals[1].push(allBoxes[i]);
       }
     }
-    console.log(diagonals);
     return diagonals;
   };
 
@@ -111,9 +101,7 @@ const tickTackToe = () => {
           break;
         }
         if (same === 3) {
-          console.log("\n\n\n\nGAME OVER!");
           winner = boxStatus(direction[0]);
-          console.log("winner:", winner);
         }
       }
     });
@@ -121,23 +109,19 @@ const tickTackToe = () => {
   };
 
   const checkWinRows = rows => {
-    console.log(">>> checkWinRows");
     return checkEnd(rows);
   };
 
   const checkWinColumns = columns => {
-    console.log(">>> checkWinColumns");
     return checkEnd(columns);
   };
 
   const checkWinDiagonals = diagonals => {
-    console.log(">>> checkWinDiagonals");
     return checkEnd(diagonals);
   };
 
   const checkWin = (rows, columns, diagonals) => {
     const winner = checkWinRows(rows) || checkWinColumns(columns) || checkWinDiagonals(diagonals);
-    console.log("CHECK WINNER:", winner);
     return winner;
   };
 
@@ -148,16 +132,8 @@ const tickTackToe = () => {
         return false;
       }
     }
-    console.log("<<< DRAW >>>");
     return true;
   };
-
-  // const showNameSelection = () => {
-  //   const startTitle = document.querySelector("#start h1");
-  //   const askNames = `<input id="player1" type="text" placeholder="Player 1 name:">
-  //                     <input id="player2" type="text" placeholder="Player 2 name:">`;
-  //   startTitle.insertAdjacentHTML("afterend", askNames);
-  // };
 
   /* ======================================================================
                           OBJECTS
@@ -191,7 +167,8 @@ const tickTackToe = () => {
       message.textContent = resultText;
     }
 
-    constructor({  } = {}) {
+    // constructor({  } = {}) {
+    constructor() {
       this.startScreen = document.querySelector("#start");
       this.boardScreen = document.querySelector("#board");
       this.endScreen = document.querySelector("#finish");
@@ -219,8 +196,8 @@ const tickTackToe = () => {
 
   // players
   const startTitle = document.querySelector("#start h1");
-  const askNames = `<input id="player1" type="text" placeholder="Player 1 name:">
-                    <input id="player2" type="text" placeholder="Player 2 name:">`;
+  const askNames = `<input class="player" id="player1" type="text" placeholder="Player 1 name:">
+                    <input class="player" id="player2" type="text" placeholder="Player 2 name:">`;
   startTitle.insertAdjacentHTML("afterend", askNames);
 
   const startScreen = document.querySelector("#start");
@@ -232,8 +209,6 @@ const tickTackToe = () => {
     } else {
       playerName2 = e.target.value;
     }
-    console.log("playerName1:", playerName1);
-    console.log("playerName2:", playerName2);
   });
 
   const startButton = document.querySelector(".screen-start .button");
@@ -245,6 +220,12 @@ const tickTackToe = () => {
     const player2 = new Player({name: playerName2, symbol: "O"});
     let currentPlayer = player1;
 
+    // Display the players' names at the top
+    const playerName1HTML = document.querySelector("#player-name-1");
+    const playerName2HTML = document.querySelector("#player-name-2");
+    playerName1HTML.textContent = player1.name;
+    playerName2HTML.textContent = player2.name;
+
     // Highlighting the user who begins
     showCurrentPlayer(currentPlayer, player1, player2);
 
@@ -254,7 +235,6 @@ const tickTackToe = () => {
       const target = e.target;
       const validMouseover = target.className === "box";
       if (validMouseover) {
-        // console.log("MOUSE OVER");
         if (currentPlayer.symbol === "X") {
           target.style.backgroundImage = "url('img/x.svg')";
         } else {
@@ -266,14 +246,12 @@ const tickTackToe = () => {
       const target = e.target;
       const validMouseout = target.className === "box";
       if (validMouseout) {
-        // console.log("MOUSE OUT", target);
         target.style.backgroundImage = "none";
       }
     });
     boxes.addEventListener("click", e => {
       const target = e.target;
       if (target.className === "box") {
-        // console.log("CLICK", target);
         if (currentPlayer.symbol === player1.symbol) {
           target.classList.add("box-filled-2");
           currentPlayer = player2;
@@ -309,8 +287,6 @@ const tickTackToe = () => {
               resultClass = "screen-win-two";
               resultText = player2.name;
             }
-            // const resultText = "Winner";
-            console.log("resultText:", resultText);
             board.showEnd(resultClass, resultText);
             // Restart the game
             const restartButton = document.querySelector("#finish .button");
